@@ -1,30 +1,24 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
-  name: worker-service-b
+  name: worker-service-b-cron
   labels:
     app: worker-service-b
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: worker-service-b
-  template:
-    metadata:
-      labels:
-        app: worker-service-b
+  schedule: "0 6 * * *"  # Agendado para rodar todos os dias às 06:00
+  jobTemplate:
     spec:
-      containers:
-        - name: worker-service-b
-          image: seu-registro/worker-service:latest
-          imagePullPolicy: Always
-          env:
-            - name: WORKER_NAME
-              value: "WorkerServiceB" # Define o nome do worker aqui
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+      template:
+        metadata:
+          labels:
+            app: worker-service-b
+        spec:
+          containers:
+            - name: worker-service-b
+              image: seu-registro/worker-service-b:latest
+              env:
+                - name: WORKER_NAME
+                  value: "WorkerServiceB"
+                - name: HORARIO
+                  value: "22:00"
+          restartPolicy: OnFailure

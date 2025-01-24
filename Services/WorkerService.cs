@@ -1,20 +1,20 @@
 ﻿namespace Poc.Vertem.Crons.Services
 {
-    public class WorkerServiceB : BackgroundService
+    public class WorkerService : BackgroundService
     {
-        private readonly ILogger<WorkerServiceA> _logger;
+        private readonly ILogger<WorkerService> _logger;
 
-        public WorkerServiceB(ILogger<WorkerServiceA> logger)
+        public WorkerService(ILogger<WorkerService> logger)
         {
             _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("WorkerServiceB iniciado.");
+            _logger.LogInformation("WorkerServiceA iniciado.");
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("WorkerServiceB em execução: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("WorkerServiceA em execução: {time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
         }
